@@ -1,0 +1,47 @@
+{
+  "status": 200,
+  "data": {
+    "exercises": [
+      {
+        "id": 1,
+        "name": "Dominadas",
+        "categoryId": 1
+      },
+      {
+        "id": 2,
+        "name": "Remo con barra",
+        "categoryId": 1
+      },
+      {
+        "id": 3,
+        "name": "Peso muerto",
+        "categoryId": 1
+      },
+      {
+        "id": 4,
+        "name": "Press de banca",
+        "categoryId": 2
+      },
+      {
+        "id": 5,
+        "name": "Sentadillas",
+        "categoryId": 3
+      },
+      {
+        "id": 6,
+        "name": "Curl de bíceps",
+        "categoryId": 2
+      },
+      {
+        "id": 7,
+        "name": "Fondos de tríceps",
+        "categoryId": 2
+      },
+      {
+        "id": 8,
+        "name": "Curl martillo",
+        "categoryId": 2
+      }
+    ]
+  }
+} 

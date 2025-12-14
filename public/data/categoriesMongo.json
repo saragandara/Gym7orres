@@ -1,0 +1,25 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["name"],
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+          "description": "ID único de la categoría (generado automáticamente por MongoDB)"
+        },
+        "name": {
+          "bsonType": "string",
+          "description": "Nombre de la categoría",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "color": {
+          "bsonType": "string",
+          "description": "Color en formato hexadecimal (ej: #7C3AED)",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      }
+    }
+  }
+}

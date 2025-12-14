@@ -1,0 +1,120 @@
+// src/app/services/api.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Category {
+  _id: string;  // ObjectId como string
+  id?: number;  // Opcional para retrocompatibilidad
+  name: string;
+  color?: string;
+}
+
+export interface Exercise {
+  _id: string;  // ObjectId como string
+  id?: number;  // Opcional para retrocompatibilidad
+  name: string;
+  categoryId: string;  // ObjectId de la categoría como string
+}
+
+export interface ExerciseWithTableData extends Exercise {
+  order?: number;  // Orden del ejercicio en la tabla
+  tableCategoryId?: string;  // categoryId específico de la tabla (puede diferir del categoryId del ejercicio)
+}
+
+export interface TableExercise {
+  exerciseId: string;  // ObjectId del ejercicio
+  order: number;  // Orden del ejercicio en la tabla (requerido)
+  name?: string;  // Nombre del ejercicio (1-200 caracteres, opcional)
+  color?: string;  // Color heredado de la categoría (máx 20 caracteres, opcional)
+  categoryId?: string;  // ObjectId de la categoría (opcional)
+}
+
+export interface Table {
+  _id: string;  // ObjectId como string
+  name: string;  // Nombre de la tabla (1-200 caracteres)
+  description?: string;  // Descripción opcional (máx 500 caracteres)
+  exercises: TableExercise[];  // Array de ejercicios
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private apiUrl = 'http://localhost:3000/api';
+
+  constructor(private http: HttpClient) {}
+
+  // Categorías
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}/categories`);
+  }
+
+  getCategory(id: string): Observable<Category> {
+    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`);
+  }
+
+  createCategory(category: Partial<Category>): Observable<Category> {
+    return this.http.post<Category>(`${this.apiUrl}/categories`, category);
+  }
+
+  updateCategory(id: string, category: Partial<Category>): Observable<Category> {
+    return this.http.put<Category>(`${this.apiUrl}/categories/${id}`, category);
+  }
+
+  deleteCategory(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/categories/${id}`);
+  }
+
+  deleteExercisesByCategory(categoryId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/categories/${categoryId}/exercises`);
+  }
+
+  // Ejercicios
+  getExercises(): Observable<Exercise[]> {
+    return this.http.get<Exercise[]>(`${this.apiUrl}/exercises`);
+  }
+
+  getExercisesByCategory(categoryId: string): Observable<Exercise[]> {
+    return this.http.get<Exercise[]>(`${this.apiUrl}/exercises/category/${categoryId}`);
+  }
+
+  getExercise(id: string): Observable<Exercise> {
+    return this.http.get<Exercise>(`${this.apiUrl}/exercises/${id}`);
+  }
+
+  createExercise(exercise: Partial<Exercise>): Observable<Exercise> {
+    return this.http.post<Exercise>(`${this.apiUrl}/exercises`, exercise);
+  }
+
+  updateExercise(id: string, exercise: Partial<Exercise>): Observable<Exercise> {
+    return this.http.put<Exercise>(`${this.apiUrl}/exercises/${id}`, exercise);
+  }
+
+  deleteExercise(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/exercises/${id}`);
+  }
+
+  // Tablas
+  getTables(): Observable<Table[]> {
+    return this.http.get<Table[]>(`${this.apiUrl}/tables`);
+  }
+
+  getTable(id: string): Observable<Table> {
+    return this.http.get<Table>(`${this.apiUrl}/tables/${id}`);
+  }
+
+  createTable(table: Partial<Table>): Observable<Table> {
+    return this.http.post<Table>(`${this.apiUrl}/tables`, table);
+  }
+
+  updateTable(id: string, table: Partial<Table>): Observable<Table> {
+    return this.http.put<Table>(`${this.apiUrl}/tables/${id}`, table);
+  }
+
+  deleteTable(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tables/${id}`);
+  }
+}

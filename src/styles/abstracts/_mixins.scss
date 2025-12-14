@@ -1,0 +1,22 @@
+// The default font size for html is 16px
+$base-size: 16;
+
+//Function to convert px value into em
+@function em($target) {
+	$context: 16;
+  @if $target == 0 { @return 0 }
+  @return calc($target / $context) + 0em;
+}
+
+//Function to convert px value into rem
+@function rem($target) {
+	$context: 16;
+  @if $target == 0 { @return 0 }
+  @return calc($target / $context) + 0rem;
+}
+
+@mixin rtl {
+  [dir="rtl"] & {
+    @content;
+  }
+}

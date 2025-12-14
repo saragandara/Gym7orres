@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "data": {
+    "categories": [
+      {
+        "id": 1,
+        "name": "Espalda"
+      },
+      {
+        "id": 2,
+        "name": "Pecho"
+      },
+      {
+        "id": 3,
+        "name": "Piernas"
+      },
+      {
+        "id": 4,
+        "name": "Hombros"
+      },
+      {
+        "id": 5,
+        "name": "Brazos"
+      }
+    ]
+  }
+}
