@@ -1,0 +1,15 @@
+{
+  "status": 200,
+  "data": {
+    "1A": {
+      "id": 1,
+      "name": "Tabla 1A",
+      "exercises": []
+    },
+    "1B": {
+      "id": 2,
+      "name": "Tabla 1B",
+      "exercises": []
+    }
+  }
+}

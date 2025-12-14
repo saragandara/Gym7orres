@@ -1,0 +1,24 @@
+{
+  "validator": {
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["name", "categoryId"],
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+          "description": "ID único del ejercicio (generado automáticamente por MongoDB)"
+        },
+        "name": {
+          "bsonType": "string",
+          "description": "Nombre del ejercicio",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "categoryId": {
+          "bsonType": "objectId",
+          "description": "Referencia al ID de la categoría (de la colección categories)"
+        }
+      }
+    }
+  }
+}

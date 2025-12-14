@@ -1,0 +1,164 @@
+:root {
+  // Colores principales - Morado vibrante y complementarios
+  --gym-brand-primary-color: #7C3AED;        // Morado vibrante (energía, exclusividad)
+  --gym-brand-secondary-color: #1E293B;      // Gris azulado oscuro (profesionalismo)
+  --gym-brand-tertiary-color: #10B981;       // Verde esmeralda (salud, vitalidad)
+  --gym-brand-primary-dark-color: #5B21B6;   // Morado oscuro
+  --gym-brand-primary-light-color: #A78BFA;  // Morado claro
+  --gym-brand-accent-color: #EC4899;         // Rosa magenta (motivación, energía)
+ 
+  // Neutros - Escala de grises moderna
+  --gym-neutral-0-color: #FFFFFF;
+  --gym-neutral-100-color: #F8F9FA;
+  --gym-neutral-200-color: #E9ECEF;
+  --gym-neutral-300-color: #DEE2E6;
+  --gym-neutral-400-color: #CED4DA;
+  --gym-neutral-500-color: #ADB5BD;
+  --gym-neutral-600-color: #6C757D;
+  --gym-neutral-700-color: #495057;
+  --gym-neutral-800-color: #343A40;
+  --gym-neutral-900-color: #212529;
+ 
+  // Textos
+  --gym-text-primary-color: #1E293B;         // Gris azulado oscuro para textos principales
+  --gym-text-secondary-color: #495057;       // Gris medio para textos secundarios
+  --gym-text-default-color: #6C757D;         // Gris para textos normales
+  --gym-text-inverse-color: #FFFFFF;         // Blanco para fondos oscuros
+  --gym-text-light-color: #ADB5BD;           // Gris claro
+  --gym-text-dark-color: #212529;            // Negro suave
+  --gym-text-danger-color: #DC3545;          // Rojo para errores
+  --gym-text-danger-placeholder-color: #C82333;
+  --gym-text-black-color: #000000;
+  --gym-text-success-color: #10B981;         // Verde para éxito
+  --gym-text-accent-color: #7C3AED;          // Morado para destacar
+ 
+  // Fondos
+  --gym-background-default-color: #FFFFFF;
+  --gym-background-inverse-color: #1E293B;
+  --gym-background-inverse-light-color: #334155;
+  --gym-background-default-opacity-color: rgba(255, 255, 255, 0.95);
+  --gym-background-alternative-color: #F8F9FA;
+  --gym-background-alternative-opacity-color: rgba(248, 249, 250, 0.95);
+  --gym-background-accent1-color: #F5F3FF;   // Morado muy claro
+  --gym-background-accent1-opacity-color: rgba(245, 243, 255, 0.9);
+  --gym-background-accent2-color: #ECFDF5;   // Verde muy claro
+  --gym-background-accent2-opacity-color: rgba(236, 253, 245, 0.9);
+  --gym-background-primary-opacity: rgba(124, 58, 237, 0.15);
+  --gym-background-secondary-opacity: rgba(30, 41, 59, 0.85);
+  --gym-background-accent3-color: #E9ECEF;
+  --gym-background-accent4-color: #DEE2E6;
+  --gym-background-gradient: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+  --gym-background-gradient-dark: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+ 
+  // Bordes
+  --gym-border-default-color: #DEE2E6;
+  --gym-border-inverse-color: #FFFFFF;
+  --gym-border-dark-color: #6C757D;
+  --gym-border-accent-color: #7C3AED;
+ 
+  // Iconos
+  --gym-icon-default-color: #7C3AED;
+  --gym-icon-inverse-color: #FFFFFF;
+  --gym-icon-secondary-color: #10B981;
+ 
+  // Sombras
+  --gym-shadow-default-color: rgba(0, 0, 0, 0.08);
+  --gym-shadow-hover-color: rgba(0, 0, 0, 0.12);
+  --gym-shadow-active-color: rgba(124, 58, 237, 0.2);
+
+  // Estados
+  --gym-accent-primary-default-color: #7C3AED;
+  --gym-accent-primary-dark-color: #5C7693;
+  --gym-accent-primary-light-color: #E3E9F0;
+
+  --gym-semantic-positive-color: #00875D;
+  --gym-semantic-negative-color: #A90044;
+  --gym-semantic-caution-color: #F99B43;
+  --gym-semantic-informative-color: #1167B2;
+  --gym-background-semantic-positive-color: #DBF0EB;
+  --gym-background-semantic-negative-color: #F2D9E3;
+  --gym-background-semantic-caution-color: #FEF0E3;
+  --gym-background-semantic-informative-color: #DFEEFD;
+  --gym-background-positive-color: #A22032;
+
+  --mat-icon-button-touch-target-size: rem(24);
+  --mdc-icon-button-state-layer-size: rem(24);
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base, .mat-mdc-icon-button.mat-mdc-button-base {
+  --mat-icon-button-touch-target-size: rem(24);
+  --mdc-icon-button-state-layer-size: rem(24);
+}
+
+.mm-menu {
+  --mm-color-background: #FFFFFF;
+  --mm-color-border: rgb(0 0 0 / 0.15);
+  --mm-color-icon: rgb(0 0 0 / 0.3);
+  --mm-color-text: rgb(0 0 0 / 0.8);
+  --mm-color-text-dimmed: rgb(0 0 0 / 0.3);
+  --mm-color-background-highlight: rgb(0 0 0 / 0.06);
+  --mm-color-background-emphasis: rgb(0 0 0 / 0.03);
+  --mm-color-focusring: #C20831;
+}
+
+$gym-brand-primary-color: var(--gym-brand-primary-color);
+$gym-brand-secondary-color: var(--gym-brand-secondary-color);
+$gym-brand-tertiary-color: var(--gym-brand-tertiary-color);
+$gym-brand-primary-dark-color: var(--gym-brand-primary-dark-color);
+$gym-brand-primary-light-color: var(--gym-brand-primary-light-color);
+
+$gym-neutral-0-color: var(--gym-neutral-0-color);
+$gym-neutral-100-color: var(--gym-neutral-100-color);
+$gym-neutral-200-color: var(--gym-neutral-200-color);
+$gym-neutral-500-color: var(--gym-neutral-500-color);
+$gym-neutral-700-color: var(--gym-neutral-700-color);
+$gym-neutral-800-color: var(--gym-neutral-800-color);
+$gym-neutral-900-color: var(--gym-neutral-900-color);
+
+$gym-text-primary-color: var(--gym-text-primary-color);
+$gym-text-secondary-color: var(--gym-text-secondary-color);
+$gym-text-default-color: var(--gym-text-default-color);
+$gym-text-inverse-color: var(--gym-text-inverse-color);
+$gym-text-light-color: var(--gym-text-light-color);
+$gym-text-dark-color: var(--gym-text-dark-color);
+$gym-text-danger-color: var(--gym-text-danger-color);
+$gym-text-danger-placeholder-color: var(--gym-text-danger-placeholder-color);
+$gym-text-black-color: var(--gym-text-black-color);
+
+$gym-background-default-color: var(--gym-background-default-color);
+$gym-background-inverse-color: var(--gym-background-inverse-color);
+$gym-background-inverse-light-color: var(--gym-background-inverse-light-color);
+$gym-background-default-opacity-color: var(--gym-background-default-opacity-color);
+$gym-background-alternative-color: var(--gym-background-alternative-color);
+$gym-background-alternative-opacity-color: var(--gym-background-alternative-opacity-color);
+$gym-background-accent1-color: var(--gym-background-accent1-color);
+$gym-background-accent1-opacity-color: var(--gym-background-accent1-opacity-color);
+$gym-background-accent2-color: var(--gym-background-accent2-color);
+$gym-background-accent2-opacity-color: var(--gym-background-accent2-opacity-color);
+$gym-background-primary-opacity: var(--gym-background-primary-opacity);
+$gym-background-secondary-opacity: var(--gym-background-secondary-opacity);
+$gym-background-accent3-color: var(--gym-background-accent3-color);
+$gym-background-accent4-color: var(--gym-background-accent4-color);
+
+$gym-border-default-color: var(--gym-border-default-color);
+$gym-border-inverse-color: var(--gym-border-inverse-color);
+$gym-border-dark-color: var(--gym-border-dark-color);
+
+$gym-icon-default-color: var(--gym-icon-default-color);
+$gym-icon-inverse-color: var(--gym-icon-inverse-color);
+
+$gym-shadow-default-color: var(--gym-shadow-default-color);
+
+$gym-accent-primary-default-color: var(--gym-accent-primary-default-color);
+$gym-accent-primary-dark-color: var(--gym-accent-primary-dark-color);
+$gym-accent-primary-light-color: var(--gym-accent-primary-light-color);
+
+$gym-semantic-positive-color: var(--gym-semantic-positive-color);
+$gym-semantic-negative-color: var(--gym-semantic-negative-color);
+$gym-semantic-caution-color: var(--gym-semantic-caution-color);
+$gym-semantic-informative-color: var(--gym-semantic-informative-color);
+$gym-background-semantic-positive-color: var(--gym-background-semantic-positive-color);
+$gym-background-semantic-negative-color: var(--gym-background-semantic-negative-color);
+$gym-background-semantic-caution-color: var(--gym-background-semantic-caution-color);
+$gym-background-semantic-informative-color: var(--gym-background-semantic-informative-color);
+$gym-background-positive-color: var(--gym-background-positive-color);

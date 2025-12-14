@@ -1,0 +1,14 @@
+@use '../abstracts' as *;
+
+.panel {
+
+  &--scroll-y {
+    overflow-y: auto;
+    max-height: 100%;
+    // padding-inline-end: rem(18);
+  }
+
+  &__parent {
+    height: calc(100dvh - rem(100));
+  }
+}

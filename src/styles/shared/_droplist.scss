@@ -1,0 +1,20 @@
+@use '../abstracts' as *;
+
+.droplist {
+  border: rem(1) solid $gym-neutral-100-color;
+  border-radius: rem(4);
+  min-height: rem(50);
+
+  &__item {
+    padding-inline-start: rem(8);
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gym-neutral-100-color;
+    }
+  }
+
+  &__already-used {
+    color: $gym-semantic-positive-color;
+  }
+}
