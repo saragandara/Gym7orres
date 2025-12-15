@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="navigation-toolbar">
+  <div class="toolbar-content">
+    <div class="brand">
+      <mat-icon>fitness_center</mat-icon>
+      <span class="brand-title">Gym7orres</span>
+    </div>
+    
+    <nav class="nav-menu">
+      <a 
+        mat-button 
+        routerLink="/historico" 
+        routerLinkActive="active"
+        (click)="navigateTo('historico')"
+        class="nav-link">
+        <mat-icon>history</mat-icon>
+        <span>Histórico</span>
+      </a>
+      
+      <a 
+        mat-button 
+        routerLink="/gestion" 
+        routerLinkActive="active"
+        (click)="navigateTo('gestion')"
+        class="nav-link">
+        <mat-icon>settings</mat-icon>
+        <span>Gestión</span>
+      </a>
+    </nav>
+  </div>
+</mat-toolbar>
