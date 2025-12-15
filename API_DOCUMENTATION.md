@@ -847,6 +847,362 @@ DELETE /api/tables/6756c1d2e3f4a5b678901250/exercises/6756b2c3d4e5f678901240
 
 ---
 
+#### 8. Eliminar todas las tablas
+```http
+DELETE /api/tables
+```
+
+**Descripción**
+Elimina todas las tablas de la colección. Útil para limpiar la base de datos.
+
+**Ejemplo**
+```http
+DELETE /api/tables
+```
+
+**Respuesta exitosa (200)**
+```json
+{
+  "message": "Todas las tablas han sido eliminadas",
+  "deletedCount": 5
+}
+```
+
+**Respuesta error (500)**
+```json
+{
+  "error": "Error al eliminar todas las tablas"
+}
+```
+
+---
+
+### Tables History
+
+#### 1. Obtener todos los historiales de tablas
+```http
+GET /api/tables-history
+```
+
+**Respuesta exitosa (200)**
+```json
+[
+  {
+    "_id": "6756d1e2f3g4h5i678901260",
+    "name": "Semana 1",
+    "tables": [
+      "6756c1d2e3f4a5b678901250",
+      "6756c1d2e3f4a5b678901251"
+    ],
+    "createdAt": "2025-12-13T15:00:00.000Z",
+    "updatedAt": "2025-12-13T15:00:00.000Z"
+  },
+  {
+    "_id": "6756d1e2f3g4h5i678901261",
+    "name": "Semana 2",
+    "tables": [
+      "6756c1d2e3f4a5b678901252"
+    ],
+    "createdAt": "2025-12-14T10:00:00.000Z",
+    "updatedAt": "2025-12-14T10:00:00.000Z"
+  }
+]
+```
+
+**Nota:** Los historiales se ordenan por fecha de creación (más recientes primero).
+
+---
+
+#### 2. Obtener historial de tabla por ID
+```http
+GET /api/tables-history/:id
+```
+
+**Parámetros**
+- `id` (ObjectId, path) - _id de MongoDB del historial
+
+**Ejemplo**
+```http
+GET /api/tables-history/6756d1e2f3g4h5i678901260
+```
+
+**Respuesta exitosa (200)**
+```json
+{
+  "_id": "6756d1e2f3g4h5i678901260",
+  "name": "Semana 1",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901251"
+  ],
+  "createdAt": "2025-12-13T15:00:00.000Z",
+  "updatedAt": "2025-12-13T15:00:00.000Z"
+}
+```
+
+**Respuesta error (404)**
+```json
+{
+  "error": "Historial de tabla no encontrado"
+}
+```
+
+---
+
+#### 3. Crear historial de tabla
+```http
+POST /api/tables-history
+```
+
+**Body (JSON)**
+```json
+{
+  "name": "Semana 3",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901251",
+    "6756c1d2e3f4a5b678901252"
+  ]
+}
+```
+
+**Campos requeridos**
+- `name` (string) - Nombre del historial (1-200 caracteres)
+- `tables` (array de strings) - Array de identificadores de tablas
+
+**Respuesta exitosa (201)**
+```json
+{
+  "_id": "6756d1e2f3g4h5i678901262",
+  "name": "Semana 3",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901251",
+    "6756c1d2e3f4a5b678901252"
+  ],
+  "createdAt": "2025-12-15T09:00:00.000Z",
+  "updatedAt": "2025-12-15T09:00:00.000Z"
+}
+```
+
+**Respuesta error (400)**
+```json
+{
+  "error": "El nombre es requerido"
+}
+```
+
+o
+
+```json
+{
+  "error": "El campo tables debe ser un array"
+}
+```
+
+o
+
+```json
+{
+  "error": "Todos los elementos de tables deben ser strings"
+}
+```
+
+---
+
+#### 4. Actualizar historial de tabla
+```http
+PUT /api/tables-history/:id
+```
+
+**Parámetros**
+- `id` (ObjectId, path) - _id de MongoDB del historial
+
+**Body (JSON)**
+```json
+{
+  "name": "Semana 3 - Modificada",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901253"
+  ]
+}
+```
+
+**Campos opcionales**
+- `name` (string) - Nuevo nombre del historial
+- `tables` (array de strings) - Nuevo array de identificadores de tablas
+
+**Nota:** Al menos uno de los campos debe ser proporcionado.
+
+**Respuesta exitosa (200)**
+```json
+{
+  "_id": "6756d1e2f3g4h5i678901262",
+  "name": "Semana 3 - Modificada",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901253"
+  ],
+  "createdAt": "2025-12-15T09:00:00.000Z",
+  "updatedAt": "2025-12-15T09:30:00.000Z"
+}
+```
+
+**Respuesta error (404)**
+```json
+{
+  "error": "Historial de tabla no encontrado"
+}
+```
+
+---
+
+#### 5. Eliminar historial de tabla
+```http
+DELETE /api/tables-history/:id
+```
+
+**Parámetros**
+- `id` (ObjectId, path) - _id de MongoDB del historial
+
+**Ejemplo**
+```http
+DELETE /api/tables-history/6756d1e2f3g4h5i678901262
+```
+
+**Respuesta exitosa (200)**
+```json
+{
+  "message": "Historial de tabla eliminado correctamente",
+  "deletedTableHistory": {
+    "_id": "6756d1e2f3g4h5i678901262",
+    "name": "Semana 3",
+    "tables": [
+      "6756c1d2e3f4a5b678901250",
+      "6756c1d2e3f4a5b678901251"
+    ],
+    "createdAt": "2025-12-15T09:00:00.000Z",
+    "updatedAt": "2025-12-15T09:00:00.000Z"
+  }
+}
+```
+
+**Respuesta error (404)**
+```json
+{
+  "error": "Historial de tabla no encontrado"
+}
+```
+
+---
+
+#### 6. Agregar tabla al historial
+```http
+POST /api/tables-history/:id/tables
+```
+
+**Parámetros**
+- `id` (ObjectId, path) - _id de MongoDB del historial
+
+**Body (JSON)**
+```json
+{
+  "table": "6756c1d2e3f4a5b678901254"
+}
+```
+
+**Campos requeridos**
+- `table` (string) - Identificador de la tabla a agregar
+
+**Ejemplo**
+```http
+POST /api/tables-history/6756d1e2f3g4h5i678901260/tables
+```
+
+**Respuesta exitosa (200)**
+```json
+{
+  "_id": "6756d1e2f3g4h5i678901260",
+  "name": "Semana 1",
+  "tables": [
+    "6756c1d2e3f4a5b678901250",
+    "6756c1d2e3f4a5b678901251",
+    "6756c1d2e3f4a5b678901254"
+  ],
+  "createdAt": "2025-12-13T15:00:00.000Z",
+  "updatedAt": "2025-12-15T10:00:00.000Z"
+}
+```
+
+**Respuesta error (400)**
+```json
+{
+  "error": "El campo table es requerido y debe ser un string"
+}
+```
+
+o
+
+```json
+{
+  "error": "La tabla ya existe en el historial"
+}
+```
+
+**Respuesta error (404)**
+```json
+{
+  "error": "Historial de tabla no encontrado"
+}
+```
+
+---
+
+#### 7. Eliminar tabla del historial
+```http
+DELETE /api/tables-history/:id/tables/:tableIndex
+```
+
+**Parámetros**
+- `id` (ObjectId, path) - _id de MongoDB del historial
+- `tableIndex` (number, path) - Índice de la tabla a eliminar en el array (base 0)
+
+**Ejemplo**
+```http
+DELETE /api/tables-history/6756d1e2f3g4h5i678901260/tables/0
+```
+
+**Respuesta exitosa (200)**
+```json
+{
+  "_id": "6756d1e2f3g4h5i678901260",
+  "name": "Semana 1",
+  "tables": [
+    "6756c1d2e3f4a5b678901251",
+    "6756c1d2e3f4a5b678901254"
+  ],
+  "createdAt": "2025-12-13T15:00:00.000Z",
+  "updatedAt": "2025-12-15T10:15:00.000Z"
+}
+```
+
+**Respuesta error (400)**
+```json
+{
+  "error": "Índice de tabla inválido"
+}
+```
+
+**Respuesta error (404)**
+```json
+{
+  "error": "Historial de tabla no encontrado"
+}
+```
+
+---
+
 ## Códigos de Estado HTTP
 
 | Código | Descripción |
@@ -898,6 +1254,17 @@ DELETE /api/tables/6756c1d2e3f4a5b678901250/exercises/6756b2c3d4e5f678901240
   }],
   createdAt: Date,        // Fecha de creación
   updatedAt: Date         // Fecha de última actualización
+}
+```
+
+### TableHistory
+```typescript
+{
+  _id: ObjectId,          // Generado automáticamente por MongoDB
+  name: string,           // Nombre del historial (1-200 caracteres)
+  tables: string[],       // Array de identificadores de tablas (strings)
+  createdAt: Date,        // Fecha de creación (auto-generada)
+  updatedAt: Date         // Fecha de última actualización (auto-generada)
 }
 ```
 
@@ -1014,6 +1381,22 @@ curl -X PUT http://localhost:3000/api/exercises/6756b2c3d4e5f678901240 \
 
 # Eliminar ejercicio de tabla
 curl -X DELETE http://localhost:3000/api/tables/6756c1d2e3f4a5b678901250/exercises/6756b2c3d4e5f678901240
+
+# Crear historial de tabla
+curl -X POST http://localhost:3000/api/tables-history \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Semana 1", "tables": ["6756c1d2e3f4a5b678901250", "6756c1d2e3f4a5b678901251"]}'
+
+# Agregar tabla a historial
+curl -X POST http://localhost:3000/api/tables-history/6756d1e2f3g4h5i678901260/tables \
+  -H "Content-Type: application/json" \
+  -d '{"table": "6756c1d2e3f4a5b678901252"}'
+
+# Eliminar tabla del historial (índice 0)
+curl -X DELETE http://localhost:3000/api/tables-history/6756d1e2f3g4h5i678901260/tables/0
+
+# Eliminar todas las tablas
+curl -X DELETE http://localhost:3000/api/tables
 ```
 
 ---

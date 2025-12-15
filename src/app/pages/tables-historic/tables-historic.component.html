@@ -1,0 +1,37 @@
+<div class="page-container">
+  <h2>{{ navState().title }}</h2>
+  
+  @if (parsedTablesHistoric() && parsedTablesHistoric().length > 0) {
+  <mat-accordion>
+    @for (historic of parsedTablesHistoric(); track historic._id) {
+    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{historic.name}}</mat-panel-title>
+        <mat-panel-description>{{historic.createdAt | date:'dd/MM/yyyy HH:mm'}}h</mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <div class="panel__content flex-c flex-g-8">
+
+        @for (table of historic.tables; track table._id) {
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{table.name}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <ul class="list">
+                @for (exercise of table.exercises; track exercise.exerciseId) {
+                  <li [style.color]="exercise.color">{{exercise.name}}</li>
+                }
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+  } @else {
+    <p>Aquí verás el histórico de tus tablas de entrenamiento</p>
+  }
+</div>

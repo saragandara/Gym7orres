@@ -39,6 +39,14 @@ export interface Table {
   updatedAt?: Date;
 }
 
+export interface TableHistory {
+  _id: string;  // ObjectId como string
+  name: string;  // Nombre del historial (1-200 caracteres)
+  tables: Table[];  // Array de tablas
+  createdAt: Date;  // Fecha de creación (auto-generada)
+  updatedAt: Date;  // Fecha de última actualización (auto-generada)
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -116,5 +124,46 @@ export class DataService {
 
   deleteTable(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/tables/${id}`);
+  }
+
+  deleteAllTables(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tables`);
+  }
+
+  addExerciseToTable(tableId: string, exercise: TableExercise): Observable<Table> {
+    return this.http.post<Table>(`${this.apiUrl}/tables/${tableId}/exercises`, exercise);
+  }
+
+  removeExerciseFromTable(tableId: string, exerciseId: string): Observable<Table> {
+    return this.http.delete<Table>(`${this.apiUrl}/tables/${tableId}/exercises/${exerciseId}`);
+  }
+
+  // Historiales de Tablas
+  getTablesHistory(): Observable<TableHistory[]> {
+    return this.http.get<TableHistory[]>(`${this.apiUrl}/tables-history`);
+  }
+
+  getTableHistory(id: string): Observable<TableHistory> {
+    return this.http.get<TableHistory>(`${this.apiUrl}/tables-history/${id}`);
+  }
+
+  createTableHistory(tableHistory: Partial<TableHistory>): Observable<TableHistory> {
+    return this.http.post<TableHistory>(`${this.apiUrl}/tables-history`, tableHistory);
+  }
+
+  updateTableHistory(id: string, tableHistory: Partial<TableHistory>): Observable<TableHistory> {
+    return this.http.put<TableHistory>(`${this.apiUrl}/tables-history/${id}`, tableHistory);
+  }
+
+  deleteTableHistory(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tables-history/${id}`);
+  }
+
+  addTableToHistory(historyId: string, table: string): Observable<TableHistory> {
+    return this.http.post<TableHistory>(`${this.apiUrl}/tables-history/${historyId}/tables`, { table });
+  }
+
+  removeTableFromHistory(historyId: string, tableIndex: number): Observable<TableHistory> {
+    return this.http.delete<TableHistory>(`${this.apiUrl}/tables-history/${historyId}/tables/${tableIndex}`);
   }
 }

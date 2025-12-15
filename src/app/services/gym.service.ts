@@ -1,9 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
-import { DataService } from './data.service';
-import { Category } from './data.service';
-import { Exercise } from './data.service';
-import { Table } from './data.service';
+import { DataService, Category, Exercise, Table, TableHistory } from './data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +12,7 @@ export class GymService {
   categoriesSig: WritableSignal<Category[]> = signal<Category[]>([]);
   exercisesSig: WritableSignal<Exercise[]> = signal<Exercise[]>([]);
   tablesSig: WritableSignal<Table[]> = signal<Table[]>([]);
+  tablesHistoricSig: WritableSignal<TableHistory[]> = signal<TableHistory[]>([]);
 
   constructor() { }
 
@@ -49,7 +47,19 @@ export class GymService {
         console.log('Tables from API:', tables);
       },
       error: (error) => {
-        console.error('Error loading categories:', error);
+        console.error('Error loading tables:', error);
+      }
+    });
+  }
+
+  getTablesHistoric() {
+    this.dataService.getTablesHistory().subscribe({
+      next: (tablesHistoric) => {
+        this.tablesHistoricSig.set(tablesHistoric);
+        console.log('Tables Historic from API:', tablesHistoric);
+      },
+      error: (error) => {
+        console.error('Error loading tables historic:', error);
       }
     });
   }

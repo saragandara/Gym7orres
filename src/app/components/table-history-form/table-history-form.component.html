@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Guardar Historial de Tablas</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del historial</mat-label>
+      <input 
+        matInput 
+        formControlName="name" 
+        placeholder="Ej: Semana 1, Mes de Enero, etc."
+        required>
+      @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+        <mat-error>El nombre es requerido</mat-error>
+      }
+      @if (form.get('name')?.hasError('minlength')) {
+        <mat-error>El nombre debe tener al menos 1 carácter</mat-error>
+      }
+      @if (form.get('name')?.hasError('maxlength')) {
+        <mat-error>El nombre no puede exceder 200 caracteres</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSubmit()"
+    [disabled]="!form.valid">
+    Guardar
+  </button>
+</mat-dialog-actions>
