@@ -13,5 +13,9 @@ export const routes: Routes = [
   {
     path: 'gestion',
     loadComponent: () => import('./pages/tables-manage/tables-manage.component').then(m => m.TablesManageComponent)
+  },
+  {
+    path: 'print/:historyId',
+    loadComponent: () => import('./components/table-print/table-print.component').then(m => m.TablePrintComponent)
   }
 ];

@@ -16,6 +16,7 @@ export interface Exercise {
   id?: number;  // Opcional para retrocompatibilidad
   name: string;
   categoryId: string;  // ObjectId de la categoría como string
+  order?: number;  // Orden del ejercicio dentro de su categoría
 }
 
 export interface ExerciseWithTableData extends Exercise {

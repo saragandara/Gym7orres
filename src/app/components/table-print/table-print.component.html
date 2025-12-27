@@ -1,0 +1,64 @@
+<div class="print-container">
+  <div class="print-header no-print flex-r flex-jc-sb flex-ai-c">
+    <button mat-raised-button color="secondary" (click)="close()">
+      <mat-icon>arrow_left</mat-icon>
+      Volver
+    </button>
+    <button mat-raised-button color="primary" (click)="print()">
+      <mat-icon>print</mat-icon>
+      Imprimir
+    </button>
+  </div>
+
+  @if (tables && tables.length > 0) {
+    <div class="print-content">
+      <h1 class="history-title no-print">{{ historyName }}</h1>
+      @if (historyDate) {
+        <p class="history-date no-print">{{ historyDate | date:'dd/MM/yyyy HH:mm' }}h</p>
+      }
+      
+      @for (table of tables; track table._id) {
+        <div class="table-section">
+          <h2 class="table-title">{{ table.name }}</h2>
+          
+          <div class="exercises-table">
+            <table>
+              <thead>
+                <tr class="sub-header">
+                  <th class="exercise-name-col"></th>
+                  @for (set of getSetsArray(); track set) {
+                    <th class="kg-col">kg</th>
+                    <th class="rp-col">rp</th>
+                    <th class="rpe-col">rpe</th>
+                    <th class="des-col">des</th>
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                @for (exercise of table.exercises; track exercise.exerciseId) {
+                  <tr>
+                    <td class="exercise-name" [style.color]="exercise.color">
+                      <span class="exercise-order">{{ exercise.order + 1 }}.</span>
+                      <span>{{ exercise.name }}</span>
+                    </td>
+                    @for (set of getSetsArray(); track set) {
+                      <td class="value-cell kg-cell"></td>
+                      <td class="value-cell rp-cell"></td>
+                      <td class="value-cell rpe-cell"></td>
+                      <td class="value-cell des-cell"></td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="no-data">
+      <p>No se encontraron tablas en este histórico</p>
+      <button class="btn btn-primary" (click)="close()">Volver al histórico</button>
+    </div>
+  }
+</div>

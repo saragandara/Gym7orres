@@ -1,0 +1,57 @@
+.page-container {
+  padding: 20px;
+}
+
+mat-expansion-panel-header {
+  mat-panel-description {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .print-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: 8px;
+
+      &:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 4px 0;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,334 @@
+@use '../abstracts' as *;
+
+.print-container {
+  padding: rem(20);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.print-header {
+  display: flex;
+  gap: rem(12);
+  margin-bottom: rem(20);
+  padding: rem(12);
+  background: #f5f5f5;
+  border-radius: rem(8);
+
+  .btn {
+    padding: rem(8) rem(16);
+    border: none;
+    border-radius: rem(4);
+    cursor: pointer;
+    font-size: rem(14);
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &.btn-primary {
+      background: #007bff;
+      color: white;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+
+    &.btn-secondary {
+      background: #6c757d;
+      color: white;
+
+      &:hover {
+        background: #545b62;
+      }
+    }
+  }
+}
+
+.print-content {
+  background: white;
+  padding: rem(20);
+}
+
+.history-title {
+  text-align: center;
+  font-size: rem(28);
+  font-weight: bold;
+  margin-bottom: rem(10);
+  text-transform: uppercase;
+  color: #333;
+}
+
+.history-date {
+  text-align: center;
+  font-size: rem(14);
+  color: #666;
+  margin-bottom: rem(30);
+}
+
+.table-section {
+  margin-bottom: rem(40);
+  page-break-inside: avoid;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.table-title {
+  text-align: center;
+  font-size: rem(20);
+  font-weight: bold;
+  margin-bottom: rem(20);
+  text-transform: uppercase;
+  color: #555;
+}
+
+.exercises-table {
+  width: 100%;
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: rem(12);
+    
+    thead {
+      tr:first-child {
+        th {
+          padding: rem(8) rem(4);
+          text-align: center;
+          border: rem(1) solid #ddd;
+          background: #f8f9fa;
+          font-weight: 600;
+
+          &.set-group {
+            background: #e9ecef;
+          }
+
+          .set-number {
+            display: block;
+            width: 100%;
+            height: rem(20);
+          }
+        }
+      }
+
+      .sub-header {
+        th {
+          padding: rem(6) rem(4);
+          text-align: center;
+          border: rem(1) solid #ddd;
+          background: #f8f9fa;
+          font-weight: 600;
+          font-size: rem(11);
+
+          &.exercise-name-col {
+            width: rem(250);
+          }
+
+          &.kg-col,
+          &.rp-col,
+          &.rpe-col,
+          &.des-col {
+            min-width: rem(40);
+            width: rem(40);
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background: #ffffff;
+        }
+
+        &:nth-child(even) {
+          background: #f5f5f5;
+        }
+
+        td {
+          padding: 0 rem(8);
+          border: rem(1) solid #ddd;
+
+          &.exercise-name {
+            font-weight: 500;
+            font-size: rem(14);
+            text-align: left;
+            padding-left: rem(12);
+
+            .exercise-order {
+              font-weight: 700;
+              margin-right: rem(8);
+            }
+          }
+
+          &.value-cell {
+            text-align: center;
+            min-width: rem(30);
+            height: rem(20);
+
+            &.kg-cell {
+              border-right: rem(1) solid #ccc;
+            }
+
+            &.rpe-cell {
+              border-right: rem(1) solid #ccc;
+            }
+
+            &.des-cell {
+              border-right: rem(2) solid #ccc;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-data {
+  text-align: center;
+  padding: rem(60) rem(20);
+
+  p {
+    font-size: rem(18);
+    color: #666;
+    margin-bottom: rem(20);
+  }
+
+  .btn {
+    padding: rem(10) rem(20);
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: rem(4);
+    cursor: pointer;
+    font-size: rem(16);
+
+    &:hover {
+      background: #0056b3;
+    }
+  }
+}
+
+// Estilos para impresión
+@media print {
+  @page {
+    size: portrait;
+    margin: 10mm;
+  }
+
+  // Ocultar headers y footers del navegador
+  @page {
+    margin-top: rem(40);
+    margin-bottom: rem(40);
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-container {
+    padding: 0;
+  }
+
+  .print-content {
+    padding: rem(10);
+  }
+
+  .history-title {
+    margin-bottom: rem(8);
+    font-size: rem(22);
+  }
+
+  .history-date {
+    margin-bottom: rem(20);
+    font-size: rem(12);
+  }
+
+  .table-section {
+    margin-bottom: rem(30);
+  }
+
+  .table-title {
+    margin-bottom: rem(15);
+    font-size: rem(16);
+  }
+
+  .exercises-table table {
+    font-size: rem(10);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+
+    thead {
+      .sub-header th {
+        &.kg-col,
+        &.rp-col,
+        &.rpe-col,
+        &.des-col {
+          min-width: rem(20);
+          max-width: rem(20);
+          width: rem(20);
+        }
+      }
+
+      tr:first-child th .set-number {
+        height: rem(15);
+      }
+    }
+
+    tbody tr {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      
+      td {
+        padding: 0 rem(4);
+
+        &.value-cell {
+          height: rem(20);
+          min-width: rem(20);
+          max-width: rem(20);
+          width: rem(20);
+        }
+      }
+    }
+  }
+
+  // Evitar saltos de página en medio de filas
+  .exercises-table table tbody tr {
+    page-break-inside: avoid;
+  }
+}
+
+// Estilos responsivos
+@media screen and (max-width: 1200px) {
+  .exercises-table {
+    font-size: rem(11);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .print-header {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .exercises-table table {
+    font-size: rem(10);
+
+    thead .sub-header th.exercise-name-col {
+      width: rem(150);
+    }
+
+    tbody tr td.value-cell {
+      min-width: rem(30);
+      height: rem(30);
+    }
+  }
+}
