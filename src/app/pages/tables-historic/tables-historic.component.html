@@ -6,19 +6,23 @@
     @for (historic of parsedTablesHistoric(); track historic._id) {
     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{historic.name}}</mat-panel-title>
+        <mat-panel-title class="flex-r flex-g-32">
+          <div class="panel__buttons flex-r flex-jc-fs flex-ai-c flex-g-8">
+            <button matIconButton color="accent" aria-label="Imprimir" (click)="openPrintView(historic._id, $event)">
+              <mat-icon>print</mat-icon>
+            </button>
+            <button matIconButton color="primary" aria-label="Clonar" (click)="cloneToManage(historic._id, $event)">
+              <mat-icon>file_copy</mat-icon>
+            </button>
+          </div>
+          <span class="panel__title">{{historic.name}}</span>
+        </mat-panel-title>
         <mat-panel-description>
-          <span>{{historic.createdAt | date:'dd/MM/yyyy HH:mm'}}h</span>
+          <span class="panel__description">{{historic.createdAt | date:'dd/MM/yyyy HH:mm'}}h</span>
         </mat-panel-description>
       </mat-expansion-panel-header>
       
       <div class="panel__content flex-c flex-g-8">
-        <div class="panel__buttons">
-          <button mat-raised-button color="accent" (click)="openPrintView(historic._id, $event)">
-            <mat-icon>print</mat-icon>
-            Imprimir
-          </button>
-        </div>
         @for (table of historic.tables; track table._id) {
           <mat-card>
             <mat-card-header>

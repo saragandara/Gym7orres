@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../services/navigation.service';
 import { GymService } from '../../services/gym.service';
-import { Table, TableHistory } from '../../services/data.service';
+import { DataService, Table, TableHistory } from '../../services/data.service';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class TablesHistoricComponent implements OnInit {
   private navigationService = inject(NavigationService);
   private router = inject(Router);
+  private dataService = inject(DataService);
 
   readonly panelOpenState = signal(false);
   gymService = inject(GymService);
@@ -50,5 +51,53 @@ export class TablesHistoricComponent implements OnInit {
   openPrintView(historyId: string, event: Event): void {
     event.stopPropagation(); // Evitar que se abra/cierre el accordion
     this.router.navigate(['/print', historyId]);
+  }
+
+  cloneToManage(historyId: string, event: Event): void {
+    event.stopPropagation(); // Evitar que se abra/cierre el accordion
+
+    // Buscar el histórico
+    const historic = this.parsedTablesHistoric().find(h => h._id === historyId);
+    
+    if (!historic) {
+      console.error('Histórico no encontrado');
+      return;
+    }
+
+    // Primero limpiar las tablas existentes
+    this.dataService.deleteAllTables().subscribe({
+      next: () => {
+        // Crear cada tabla del histórico en la colección tables
+        let tablesCreated = 0;
+        const totalTables = historic.tables.length;
+
+        if (totalTables === 0) {
+          // Si no hay tablas, navegar directamente
+          this.router.navigate(['/gestion']);
+          return;
+        }
+
+        historic.tables.forEach((table) => {
+          // Crear una copia sin el _id para que se genere uno nuevo
+          const { _id, ...tableWithoutId } = table;
+          
+          this.dataService.createTable(tableWithoutId).subscribe({
+            next: () => {
+              tablesCreated++;
+              // Cuando se hayan creado todas, navegar
+              if (tablesCreated === totalTables) {
+                this.router.navigate(['/gestion']);
+              }
+            },
+            error: (error) => {
+              console.error('Error al crear tabla:', error);
+            }
+          });
+        });
+      },
+      error: (error) => {
+        console.error('Error al limpiar tablas:', error);
+      }
+    });
   }
 }
