@@ -8,11 +8,17 @@
       <mat-expansion-panel-header>
         <mat-panel-title class="flex-r flex-g-32">
           <div class="panel__buttons flex-r flex-jc-fs flex-ai-c flex-g-8">
+            <button matIconButton color="primary" aria-label="Editar nombre" (click)="editHistoricName(historic._id, historic.name, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
             <button matIconButton color="accent" aria-label="Imprimir" (click)="openPrintView(historic._id, $event)">
               <mat-icon>print</mat-icon>
             </button>
             <button matIconButton color="primary" aria-label="Clonar" (click)="cloneToManage(historic._id, $event)">
               <mat-icon>file_copy</mat-icon>
+            </button>
+            <button matIconButton color="warn" aria-label="Eliminar" (click)="deleteHistoric(historic._id, historic.name, $event)">
+              <mat-icon>delete</mat-icon>
             </button>
           </div>
           <span class="panel__title">{{historic.name}}</span>

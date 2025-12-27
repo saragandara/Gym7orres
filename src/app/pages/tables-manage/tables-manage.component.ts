@@ -489,9 +489,16 @@ export class TablesManageComponent {
         // Buscar la tabla y eliminar el ejercicio de su array
         const table = this.gymService.tablesSig().find(t => t._id === tableId);
         if (table) {
-          const updatedExercises = table.exercises.filter(
+          // Filtrar el ejercicio eliminado
+          const filteredExercises = table.exercises.filter(
             te => te.exerciseId !== exercise._id
           );
+          
+          // Reordenar los ejercicios restantes
+          const updatedExercises = filteredExercises.map((ex, index) => ({
+            ...ex,
+            order: index
+          }));
           
           // Actualizar la tabla en la base de datos
           this.dataService.updateTable(tableId, { exercises: updatedExercises }).subscribe({

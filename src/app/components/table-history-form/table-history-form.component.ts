@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,9 +24,14 @@ export class TableHistoryFormComponent {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<TableHistoryFormComponent>);
 
-  form: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]]
-  });
+  form: FormGroup;
+
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: { name?: string }) {
+    // Inicializar el formulario con el nombre proporcionado o vacío
+    this.form = this.fb.group({
+      name: [data?.name || '', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]]
+    });
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

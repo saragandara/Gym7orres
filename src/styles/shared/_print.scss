@@ -132,6 +132,9 @@
             min-width: rem(40);
             width: rem(40);
           }
+          &.des-col {
+            border-right: rem(2) solid #ccc;
+          }
         }
       }
     }
