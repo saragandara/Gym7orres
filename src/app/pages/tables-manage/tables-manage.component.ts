@@ -39,6 +39,9 @@ export class TablesManageComponent {
   ngOnInit() {
     // Actualizar el estado de navegación al entrar en esta página
     this.navigationService.setCurrentPage('gestion');
+
+    // Añadir clase tables-manage al body
+    document.body.classList.add('tables-manage');
     
     this.gymService.getCategories();
     this.gymService.getExercises();
@@ -502,5 +505,10 @@ export class TablesManageComponent {
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    // Remover clase tables-manage del body al destruir el componente
+    document.body.classList.remove('tables-manage');
   }
 }

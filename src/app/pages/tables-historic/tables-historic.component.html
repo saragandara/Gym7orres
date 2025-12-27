@@ -7,11 +7,18 @@
     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
       <mat-expansion-panel-header>
         <mat-panel-title>{{historic.name}}</mat-panel-title>
-        <mat-panel-description>{{historic.createdAt | date:'dd/MM/yyyy HH:mm'}}h</mat-panel-description>
+        <mat-panel-description>
+          <span>{{historic.createdAt | date:'dd/MM/yyyy HH:mm'}}h</span>
+        </mat-panel-description>
       </mat-expansion-panel-header>
       
       <div class="panel__content flex-c flex-g-8">
-
+        <div class="panel__buttons">
+          <button mat-raised-button color="accent" (click)="openPrintView(historic._id, $event)">
+            <mat-icon>print</mat-icon>
+            Imprimir
+          </button>
+        </div>
         @for (table of historic.tables; track table._id) {
           <mat-card>
             <mat-card-header>
@@ -20,7 +27,7 @@
             <mat-card-content>
               <ul class="list">
                 @for (exercise of table.exercises; track exercise.exerciseId) {
-                  <li [style.color]="exercise.color">{{exercise.name}}</li>
+                  <li [style.color]="exercise.color">{{exercise.order + 1}}. {{exercise.name}}</li>
                 }
               </ul>
             </mat-card-content>

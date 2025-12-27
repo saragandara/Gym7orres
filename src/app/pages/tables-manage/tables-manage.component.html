@@ -122,7 +122,12 @@
             }
             @for (exercise of getExercisesByTable(table._id); track exercise._id) {
               <div cdkDrag class="droplist__item flex-r flex-jc-sb flex-ai-c">
-                <span [style.color]="getExerciseColor(table._id, exercise._id)">{{exercise.name}}</span>
+                <div [style.color]="getExerciseColor(table._id, exercise._id)" class="flex-r flex-jc-fs flex-g-8">
+                  @if (exercise.order !== undefined) {
+                    <span>{{exercise.order + 1}}.</span>
+                  }
+                  <span [style.color]="getExerciseColor(table._id, exercise._id)">{{exercise.name}}</span>
+                </div>
                 <button mat-icon-button (click)="removeExerciseFromTable(table._id, exercise)">
                   <mat-icon color="warn">delete</mat-icon>
                 </button>
