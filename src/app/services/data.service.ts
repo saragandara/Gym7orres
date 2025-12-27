@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Category {
   _id: string;  // ObjectId como string
@@ -15,6 +16,7 @@ export interface Exercise {
   id?: number;  // Opcional para retrocompatibilidad
   name: string;
   categoryId: string;  // ObjectId de la categoría como string
+  order?: number;  // Orden del ejercicio dentro de su categoría
 }
 
 export interface ExerciseWithTableData extends Exercise {
@@ -51,7 +53,7 @@ export interface TableHistory {
   providedIn: 'root'
 })
 export class DataService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
