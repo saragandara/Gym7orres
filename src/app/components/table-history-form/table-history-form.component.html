@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Guardar Historial de Tablas</h2>
+<h2 mat-dialog-title>{{ data?.name ? 'Editar Nombre del Historial' : 'Guardar Historial de Tablas' }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
