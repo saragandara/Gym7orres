@@ -1,0 +1,261 @@
+@use '../abstracts' as *;
+
+.f {
+  &-fw-b {
+    font-weight: 700;
+
+    &-md {
+      font-weight: 400;
+      @include media-breakpoint-up(md) {
+        font-weight: 700;
+      }
+    }
+  }
+
+  &-fw-n {
+    font-weight: 400;
+
+    &-md {
+      @include media-breakpoint-up(md) {
+        font-weight: 400;
+      }
+    }
+  }
+
+  &-fw-l {
+    font-weight: 100;
+  }
+
+  &-td-u {
+    text-decoration: underline;
+  }
+
+  &-tt-u {
+    text-transform: uppercase;
+  }
+
+  &-tt-c {
+    text-transform: capitalize;
+  }
+
+  &-tt-l {
+    text-transform: lowercase;
+  }
+
+  &-tt-none {
+    text-transform: none;
+  }
+
+  &-ta-l {
+    text-align: left;
+  }
+
+  &-ta-c {
+    text-align: center;
+  }
+
+  &-ta-r {
+    text-align: right;
+  }
+
+  &-ta-s {
+    text-align: start;
+  }
+
+  &-ta-e {
+    text-align: end;
+  }
+
+  &-heading {
+    &-pri { 
+      &-xl {
+        font-size: rem(30);
+        line-height: rem(38);
+      }
+
+      &-l {
+        font-size: rem(24);
+        line-height: rem(28);
+        @include media-breakpoint-up(lg) {
+          font-size: rem(32);
+          line-height: rem(38);
+        }
+      }
+
+      &-m {
+        font-size: rem(16);
+        line-height: rem(14);
+      }
+
+      &-s {
+        font-size: rem(14);
+        line-height: rem(16);
+      }
+      
+      &-0 {
+        font-size: 0;
+      }
+      &-tablet {
+        @include media-breakpoint-up(md) {
+          &-l {
+            font-size: rem(24);
+            line-height: rem(28);
+          }
+        }
+      }
+    }
+
+    &-sec {
+      &-xl {
+        font-size: rem(36);
+        @include media-breakpoint-up(lg) {
+          font-size: rem(64);
+          line-height: rem(76);
+        }
+      }
+
+      &-l {
+        font-size: rem(22);
+        @include media-breakpoint-up(lg) {
+          font-size: rem(36);
+          line-height: rem(44);
+        }
+      }
+
+      &-m {
+        font-size: rem(20);
+        line-height: rem(24);
+        @include media-breakpoint-up(lg) {
+          font-size: rem(28);
+          line-height: rem(32);
+        }
+      }
+
+      &-s {
+        font-size: rem(18);
+        line-height: rem(24);
+      }
+    }
+  }
+ 
+  &-body {
+    &-2xl {
+      font-size: rem(24);
+      line-height: rem(28);
+    }
+
+    &-xl {
+      font-size: rem(20);
+      line-height: rem(24);
+    }
+
+    &-l {
+      font-size: rem(16);
+      line-height: rem(20);
+    }
+
+    &-m {
+      font-size: rem(14);
+      line-height: rem(16);
+    }
+
+    &-s {
+      font-size: rem(12);
+      line-height: rem(14);
+    }
+    @include media-breakpoint-up(md) {
+      &-tablet {
+        &-xl {
+          font-size: rem(20);
+          line-height: rem(24);
+        }
+      }
+    }
+
+  }
+
+  &-link {
+    font-size: rem(19);
+    line-height: rem(24);
+  }
+
+  &-icon {
+    font-size: rem(32);
+
+    &-l {
+      font-size: rem(40);
+    }
+
+    &-m {
+      font-size: rem(32);
+    }
+    
+    &-s {
+      font-size: rem(24);
+    }
+
+    &-xs {
+      font-size: rem(16);
+    }
+
+    &-xxs {
+      font-size: rem(12);
+    }
+  }
+}
+
+[class*=f-heading-pri-],
+[class*=f-body-],
+.f-link {
+  font-family: $gym-primary-font;
+}
+
+[class*=f-heading-sec-] {
+  font-family: $gym-secondary-font;
+}
+
+// this would capitalize EVERY word
+// [class*=f-heading-pri-],
+// [class*=f-heading-sec-] {
+//   text-transform: capitalize;
+// }
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+/* you need to add another overflow-hidden to the flex-item containing the truncated element */
+.overflow-hidden {
+  /* You can also use overflow: auto, or overflow: scroll */
+  overflow: hidden;
+}
+
+.truncated {
+  /* Must not be `display: flex` */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[class*=line-clamp-] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-clamp {
+  &-1 {
+    -webkit-line-clamp: 1;
+  }
+  &-2 {
+    -webkit-line-clamp: 2;
+  }
+  &-3 {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.hyphens {
+  hyphens: auto;
+}

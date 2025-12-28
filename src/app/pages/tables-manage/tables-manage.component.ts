@@ -8,6 +8,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 import { GymService } from '../../services/gym.service';
 import { DataService, Category, Exercise, Table, ExerciseWithTableData } from '../../services/data.service';
@@ -21,7 +24,7 @@ import { TableHistoryFormComponent } from '../../components/table-history-form/t
 @Component({
   selector: 'app-tables-manage',
   standalone: true,
-  imports: [RouterOutlet, JsonPipe, CdkDropList, CdkDrag, CdkDropListGroup, MatCardModule, MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [RouterOutlet, JsonPipe, CdkDropList, CdkDrag, CdkDropListGroup, MatCardModule, MatButtonModule, MatIconModule, MatMenuModule, MatSelectModule, MatFormFieldModule, MatInputModule],
   templateUrl: './tables-manage.component.html',
   styleUrls: ['./tables-manage.component.scss']
 })
@@ -36,6 +39,54 @@ export class TablesManageComponent {
   // Acceso a la signal de navegación
   navState = this.navigationService.navigationState;
 
+  // Filtro de categorías
+  selectedCategoriesFilter = signal<string[]>([]);
+  
+  // Búsqueda de ejercicios
+  exerciseSearchText = signal<string>('');
+  
+  // Computed para categorías filtradas
+  filteredCategories = computed(() => {
+    const selected = this.selectedCategoriesFilter();
+    const searchText = this.exerciseSearchText();
+    const allCategories = this.gymService.categoriesSig();
+    
+    let categories = allCategories;
+    
+    // Filtrar por categorías seleccionadas
+    if (selected.length > 0) {
+      categories = categories.filter(cat => selected.includes(cat._id));
+    }
+    
+    // Si hay búsqueda activa, filtrar categorías que tengan al menos un ejercicio
+    if (searchText.trim().length > 0) {
+      categories = categories.filter(cat => {
+        const exercises = this.getFilteredExercisesByCategory(cat._id);
+        return exercises.length > 0;
+      });
+    }
+    
+    return categories;
+  });
+
+  // Computed para contar ejercicios filtrados
+  exercisesCount = computed(() => {
+    const searchText = this.exerciseSearchText();
+    const categories = this.filteredCategories();
+    const totalExercises = this.gymService.exercisesSig().length;
+    
+    if (searchText.trim().length === 0) {
+      return { visible: totalExercises, total: totalExercises };
+    }
+    
+    let visibleCount = 0;
+    categories.forEach(cat => {
+      visibleCount += this.getFilteredExercisesByCategory(cat._id).length;
+    });
+    
+    return { visible: visibleCount, total: totalExercises };
+  });
+
   ngOnInit() {
     // Actualizar el estado de navegación al entrar en esta página
     this.navigationService.setCurrentPage('gestion');
@@ -48,9 +99,44 @@ export class TablesManageComponent {
     this.gymService.getTables();
   }
 
+  onCategoryFilterChange(selectedIds: string[]) {
+    this.selectedCategoriesFilter.set(selectedIds);
+  }
+
+  clearCategoryFilter() {
+    this.selectedCategoriesFilter.set([]);
+  }
+
+  onExerciseSearchChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.exerciseSearchText.set(value);
+  }
+
+  clearExerciseSearch() {
+    this.exerciseSearchText.set('');
+  }
+
+  clearAllFilters() {
+    this.selectedCategoriesFilter.set([]);
+    this.exerciseSearchText.set('');
+  }
+
   getExercisesByCategory(categoryId: string): Exercise[] {
     const exs = this.gymService.exercisesSig();
     return exs.filter(ex => ex.categoryId === categoryId);
+  }
+
+  getFilteredExercisesByCategory(categoryId: string): Exercise[] {
+    const exercises = this.getExercisesByCategory(categoryId);
+    const searchText = this.exerciseSearchText().toLowerCase().trim();
+    
+    if (searchText.length === 0) {
+      return exercises;
+    }
+    
+    return exercises.filter(ex => 
+      ex.name.toLowerCase().includes(searchText)
+    );
   }
 
   isExerciseInUse(exerciseId: string): boolean {
