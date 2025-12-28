@@ -3,9 +3,3 @@
 
 @use 'styles/shared';
 @use 'styles/partials';
-// Estilos globales para impresión
-@media print {
-  .no-print {
-    display: none !important;
-  }
-}
