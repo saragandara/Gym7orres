@@ -26,3 +26,10 @@ body {
   margin-left: rem(8);
   vertical-align: middle;
 }
+
+// Estilos globales para impresión
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

@@ -1,7 +1,7 @@
 <div class="flex-r flex-g-32" cdkDropListGroup>
   <section class="panel__parent w-50 flex-c flex-g-32">
 
-    <div class="flex-c flex-ai-fs">
+    <div class="flex-c flex-ai-fs flex-g-8">
       <h2>Grupos musculares</h2>
       <button mat-raised-button color="primary" (click)="openCategoryForm()">
         <mat-icon>add</mat-icon>
@@ -9,65 +9,122 @@
       </button>
     </div>
 
-    @if (gymService.categoriesSig() && gymService.categoriesSig().length > 0) {
-      <div class="panel panel--scroll-y flex-c flex-g-32">
-      @for (category of gymService.categoriesSig(); track category) {
-        <mat-card class="card" appearance="outlined">
-          <mat-card-header class="flex-r flex-jc-sb flex-ai-c">
-            <div class="flex-r flex-jc-fs flex-ai-c flex-g-8 flex-gr-1">
-              <mat-card-title>
-                {{category.name}}
+    @if (selectedCategoriesFilter().length > 0 || exerciseSearchText().length > 0) {
+    <button mat-raised-button color="accent" (click)="clearAllFilters()">
+      <mat-icon>filter_alt_off</mat-icon>
+      Limpiar todos los filtros
+    </button>
+    }
 
-                @if (category.color) {
-                  <span class="category-color" [style.backgroundColor]="category.color"></span>
-                }
-              </mat-card-title>
-              <button mat-icon-button [matMenuTriggerFor]="categoryMenu">
-                <mat-icon>more_vert</mat-icon>
+    <div class="flex-r flex-jc-fs flex-ai-c flex-g-16">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Filtrar por categorías</mat-label>
+        <mat-select multiple [value]="selectedCategoriesFilter()" (selectionChange)="onCategoryFilterChange($event.value)">
+          @for (category of gymService.categoriesSig(); track category) {
+            <mat-option [value]="category._id">{{category.name}}</mat-option>
+          }
+        </mat-select>
+        @if (selectedCategoriesFilter().length > 0) {
+          <button matSuffix mat-icon-button aria-label="Limpiar filtro" (click)="clearCategoryFilter()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        }
+        <mat-hint>
+          @if (selectedCategoriesFilter().length === 0) {
+            Mostrando todas las categorías
+          } @else {
+            Mostrando {{selectedCategoriesFilter().length}} de {{gymService.categoriesSig().length}} categorías
+          }
+        </mat-hint>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Buscar ejercicios</mat-label>
+        <input matInput [value]="exerciseSearchText()" (input)="onExerciseSearchChange($event)" placeholder="Escribe para buscar...">
+        @if (exerciseSearchText().length > 0) {
+          <button matSuffix mat-icon-button aria-label="Limpiar búsqueda" (click)="clearExerciseSearch()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        } @else {
+          <mat-icon matSuffix>search</mat-icon>
+        }
+        <mat-hint>
+          @if (exerciseSearchText().length === 0) {
+            Mostrando todos los ejercicios
+          } @else {
+            Mostrando {{exercisesCount().visible}} de {{exercisesCount().total}} ejercicios
+          }
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    @if (gymService.categoriesSig() && gymService.categoriesSig().length > 0) {
+      @if (filteredCategories().length > 0) {
+        <div class="panel panel--scroll-y flex-c flex-g-32">
+        @for (category of filteredCategories(); track category) {
+          <mat-card class="card" appearance="outlined">
+            <mat-card-header class="flex-r flex-jc-sb flex-ai-c">
+              <div class="flex-r flex-jc-fs flex-ai-c flex-g-8 flex-gr-1">
+                <mat-card-title>
+                  {{category.name}}
+
+                  @if (category.color) {
+                    <span class="category-color" [style.backgroundColor]="category.color"></span>
+                  }
+                </mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="categoryMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #categoryMenu="matMenu">
+                  <button mat-menu-item (click)="openCategoryForm(category)">
+                    <mat-icon color="primary">edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item (click)="removeCategory(category)">
+                    <mat-icon color="warn">delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+              </div>
+              <button matButton color="primary" (click)="addExercise(category._id)">
+                <mat-icon>add</mat-icon> Añadir ejercicio
               </button>
-              <mat-menu #categoryMenu="matMenu">
-                <button mat-menu-item (click)="openCategoryForm(category)">
-                  <mat-icon color="primary">edit</mat-icon>
-                  <span>Editar</span>
-                </button>
-                <button mat-menu-item (click)="removeCategory(category)">
-                  <mat-icon color="warn">delete</mat-icon>
-                  <span>Eliminar</span>
-                </button>
-              </mat-menu>
-            </div>
-            <button matButton color="primary" (click)="addExercise(category._id)">
-              <mat-icon>add</mat-icon> Añadir ejercicio
-            </button>
-          </mat-card-header>
-          <mat-card-content>
-            <div cdkDropList class="droplist"
-              [id]="category._id"
-              [cdkDropListData]="getExercisesByCategory(category._id)" 
-              (cdkDropListDropped)="drop($event)">
-              @for (exercise of getExercisesByCategory(category._id); track exercise) {
-                <div cdkDrag class="droplist__item flex-r flex-jc-sb flex-ai-c" [class.already-used]="isExerciseInUse(exercise._id)">
-                  <span class="droplist__name flex-r flex-js-fs flex-ai-c flex-g-8">
-                    {{exercise.name}} 
-                    @if (isExerciseInUse(exercise._id)) {
-                      <mat-icon class="droplist__already-used" aria-hidden="false" aria-label="Ya usado" fontIcon="check"></mat-icon>
-                    }
-                  </span>
-                  <div>
-                    <button mat-icon-button color="primary" (click)="openExerciseForm(exercise)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="removeExercise(exercise)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
+            </mat-card-header>
+            <mat-card-content>
+              <div cdkDropList class="droplist"
+                [id]="category._id"
+                [cdkDropListData]="getFilteredExercisesByCategory(category._id)" 
+                (cdkDropListDropped)="drop($event)">
+                @for (exercise of getFilteredExercisesByCategory(category._id); track exercise) {
+                  <div cdkDrag class="droplist__item flex-r flex-jc-sb flex-ai-c" [class.already-used]="isExerciseInUse(exercise._id)">
+                    <span class="droplist__name flex-r flex-js-fs flex-ai-c flex-g-8">
+                      {{exercise.name}} 
+                      @if (isExerciseInUse(exercise._id)) {
+                        <mat-icon class="droplist__already-used" aria-hidden="false" aria-label="Ya usado" fontIcon="check"></mat-icon>
+                      }
+                    </span>
+                    <div>
+                      <button mat-icon-button color="primary" (click)="openExerciseForm(exercise)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="removeExercise(exercise)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              }
-            </div>
-          </mat-card-content>
-        </mat-card>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+        </div>
+      } @else {
+        <div class="panel flex-c flex-jc-c flex-ai-c flex-g-16">
+          <mat-icon color="warn" class="f-icon-m">search_off</mat-icon>
+          <p class="f-body-m">No se encontraron resultados para los filtros aplicados.</p>
+          <p class="f-body-m">Intenta ajustar los criterios de búsqueda.</p>
+        </div>
       }
-      </div>
     } @else {
       <p>No categories available</p>
     }
@@ -76,7 +133,7 @@
 
   <section class="panel__parent w-50 flex-c flex-g-32">
     
-    <div class="flex-c flex-ai-fs">
+    <div class="flex-c flex-ai-fs flex-g-8">
       <h2>Tablas</h2>
       <div class="flex-r flex-jc-fs flex-ai-c flex-g-16">
         <button mat-raised-button color="primary" (click)="openTableForm()">
