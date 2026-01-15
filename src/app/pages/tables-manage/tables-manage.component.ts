@@ -2,6 +2,7 @@ import { Component, effect, inject, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { CdkDragDrop, CdkDropList, CdkDrag, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { forkJoin } from 'rxjs';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
@@ -97,6 +98,58 @@ export class TablesManageComponent {
     this.gymService.getCategories();
     this.gymService.getExercises();
     this.gymService.getTables();
+    this.gymService.getTablesHistoric();
+  }
+
+  exportDatabaseDump() {
+    // Obtener fecha y hora actual para el nombre de la carpeta
+    const now = new Date();
+    const folderName = `gym7orres-backup-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+    
+    // Obtener datos de cada colección
+    const categories = this.gymService.categoriesSig();
+    const exercises = this.gymService.exercisesSig();
+    const tables = this.gymService.tablesSig();
+    const tablesHistory = this.gymService.tablesHistoricSig();
+    
+    // Crear scripts de importación
+    const importScript = `# Scripts de importación para MongoDB
+# Ejecutar estos comandos desde la terminal en el directorio donde están los archivos JSON
+
+# Importar categorías
+mongoimport --db gym7orres --collection categories --file categories.json --jsonArray --drop
+
+# Importar ejercicios
+mongoimport --db gym7orres --collection exercises --file exercises.json --jsonArray --drop
+
+# Importar tablas
+mongoimport --db gym7orres --collection tables --file tables.json --jsonArray --drop
+
+# Importar histórico de tablas
+mongoimport --db gym7orres --collection tables_history --file tables_history.json --jsonArray --drop
+
+# Nota: El flag --drop elimina la colección existente antes de importar
+# Si deseas preservar datos existentes, elimina el flag --drop
+`;
+
+    // Crear archivos para descargar
+    this.downloadFile(`${folderName}/categories.json`, JSON.stringify(categories, null, 2));
+    this.downloadFile(`${folderName}/exercises.json`, JSON.stringify(exercises, null, 2));
+    this.downloadFile(`${folderName}/tables.json`, JSON.stringify(tables, null, 2));
+    this.downloadFile(`${folderName}/tables_history.json`, JSON.stringify(tablesHistory, null, 2));
+    this.downloadFile(`${folderName}/import-instructions.txt`, importScript);
+    
+    alert(`Se han descargado 5 archivos. Organízalos en una carpeta llamada "${folderName}"`);
+  }
+
+  private downloadFile(filename: string, content: string) {
+    const blob = new Blob([content], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.URL.revokeObjectURL(url);
   }
 
   onCategoryFilterChange(selectedIds: string[]) {
@@ -204,8 +257,12 @@ export class TablesManageComponent {
           order: event.currentIndex,
           name: movedExercise.name,  // Desnormalizar el nombre
           color: category?.color,  // Desnormalizar el color de la categoría
-          categoryId: movedExercise.categoryId
+          categoryId: movedExercise.categoryId,
+          repeticiones: movedExercise.repeticiones || ''  // Incluir repeticiones
         };
+        
+        console.log('Ejercicio movido:', movedExercise);
+        console.log('TableExercise a guardar:', tableExercise);
         
         // Insertar en la posición correcta
         sortedExercises.splice(event.currentIndex, 0, tableExercise);
@@ -438,6 +495,59 @@ export class TablesManageComponent {
     });    
   }
 
+  clearAllTables() {
+    const currentTables = this.gymService.tablesSig();
+    
+    console.log('Tablas actuales:', currentTables.length);
+    
+    if (currentTables.length === 0) {
+      alert('No hay tablas para eliminar');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Limpiar todas las tablas',
+        message: '¿Estás seguro de que deseas eliminar todas las tablas?',
+        details: `Se eliminarán ${currentTables.length} tabla(s). Esta acción no afecta al histórico.`,
+        confirmText: 'Eliminar todas'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      
+      if (confirmed) {
+        // Crear un contador para seguimiento
+        let deletedCount = 0;
+        let errorCount = 0;
+        
+        // Eliminar todas las tablas una por una
+        currentTables.forEach((table, index) => {
+          this.dataService.deleteTable(table._id).subscribe({
+            next: () => {
+              deletedCount++;
+              
+              // Recargar cuando se complete la última eliminación
+              if (deletedCount + errorCount === currentTables.length) {
+                this.gymService.getTables();
+              }
+            },
+            error: (error) => {
+              errorCount++;
+              console.error(`Error al eliminar tabla ${table.name}:`, error);
+              
+              // Recargar incluso si hay errores
+              if (deletedCount + errorCount === currentTables.length) {
+                this.gymService.getTables();
+              }
+            }
+          });
+        });
+      }
+    });
+  }
+
   saveTablesHistory() {
     const dialogRef = this.dialog.open(TableHistoryFormComponent, {
       width: '500px'
@@ -499,7 +609,8 @@ export class TablesManageComponent {
             name: te.name,
             categoryId: te.categoryId || '',
             tableCategoryId: te.categoryId,
-            order: te.order
+            order: te.order,
+            repeticiones: te.repeticiones || ''
           } as ExerciseWithTableData;
         }
         
@@ -511,14 +622,16 @@ export class TablesManageComponent {
             name: `Ejercicio eliminado (${te.exerciseId.substring(0, 8)}...)`,
             categoryId: te.categoryId || '',
             tableCategoryId: te.categoryId,
-            order: te.order
+            order: te.order,
+            repeticiones: te.repeticiones || ''
           } as ExerciseWithTableData;
         }
         
         return {
           ...exercise,
           tableCategoryId: te.categoryId,
-          order: te.order
+          order: te.order,
+          repeticiones: te.repeticiones || exercise.repeticiones || ''
         } as ExerciseWithTableData;
       });
   }
@@ -533,7 +646,7 @@ export class TablesManageComponent {
     if (!table) return '#ccc';
     
     const tableExercise = table.exercises.find(te => te.exerciseId === exerciseId);
-    if (tableExercise?.color) return tableExercise.color;
+    // if (tableExercise?.color) return tableExercise.color;
     
     // Fallback: buscar el color de la categoría
     if (tableExercise?.categoryId) {

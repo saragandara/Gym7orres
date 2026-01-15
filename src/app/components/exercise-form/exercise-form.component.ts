@@ -43,7 +43,8 @@ export class ExerciseFormComponent {
     // Inicializar el formulario
     this.exerciseForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(200)]],
-      categoryId: ['', Validators.required]
+      categoryId: ['', Validators.required],
+      repeticiones: ['', [Validators.maxLength(100)]]
     });
 
     // Si hay datos, estamos en modo edición
@@ -52,7 +53,8 @@ export class ExerciseFormComponent {
       this.exerciseId.set(this.data.exercise._id);
       this.exerciseForm.patchValue({
         name: this.data.exercise.name,
-        categoryId: this.data.exercise.categoryId
+        categoryId: this.data.exercise.categoryId,
+        repeticiones: this.data.exercise.repeticiones || ''
       });
     } else if (this.data?.categoryId) {
       // Si se proporciona categoryId, preseleccionar la categoría
@@ -73,7 +75,8 @@ export class ExerciseFormComponent {
 
     const exerciseData: Partial<Exercise> = {
       name: this.exerciseForm.value.name.trim(),
-      categoryId: this.exerciseForm.value.categoryId
+      categoryId: this.exerciseForm.value.categoryId,
+      repeticiones: this.exerciseForm.value.repeticiones?.trim() || ''
     };
 
     const operation = this.isEditMode()

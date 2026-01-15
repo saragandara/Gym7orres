@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/tables-manage/tables-manage.component').then(m => m.TablesManageComponent)
   },
   {
+    path: 'ejercicios',
+    loadComponent: () => import('./pages/exercises-list/exercises-list.component').then(m => m.ExercisesListComponent)
+  },
+  {
     path: 'print/:historyId',
     loadComponent: () => import('./components/table-print/table-print.component').then(m => m.TablePrintComponent)
   }

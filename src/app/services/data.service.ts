@@ -17,6 +17,7 @@ export interface Exercise {
   name: string;
   categoryId: string;  // ObjectId de la categoría como string
   order?: number;  // Orden del ejercicio dentro de su categoría
+  repeticiones?: string;  // Repeticiones del ejercicio
 }
 
 export interface ExerciseWithTableData extends Exercise {
@@ -30,6 +31,7 @@ export interface TableExercise {
   name?: string;  // Nombre del ejercicio (1-200 caracteres, opcional)
   color?: string;  // Color heredado de la categoría (máx 20 caracteres, opcional)
   categoryId?: string;  // ObjectId de la categoría (opcional)
+  repeticiones?: string;  // Repeticiones del ejercicio (opcional)
 }
 
 export interface Table {

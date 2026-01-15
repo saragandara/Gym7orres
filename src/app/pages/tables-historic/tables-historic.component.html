@@ -11,7 +11,7 @@
             <button matIconButton color="primary" aria-label="Editar nombre" (click)="editHistoricName(historic._id, historic.name, $event)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button matIconButton color="accent" aria-label="Imprimir" (click)="openPrintView(historic._id, $event)">
+            <button matIconButton color="accent" aria-label="Imprimir" (click)="openPrintView(historic._id, $event)" aria-label="Imprimir">
               <mat-icon>print</mat-icon>
             </button>
             <button matIconButton color="primary" aria-label="Clonar" (click)="cloneToManage(historic._id, $event)">
@@ -37,7 +37,10 @@
             <mat-card-content>
               <ul class="list">
                 @for (exercise of table.exercises; track exercise.exerciseId) {
-                  <li [style.color]="exercise.color">{{exercise.order + 1}}. {{exercise.name}}</li>
+                  <li class="flex-r flex-jc-fs flex-ai-b flex-g-8">
+                    <span class="f-body-l" [style.color]="exercise.color">{{exercise.order + 1}}. {{exercise.name}}</span>
+                    <span class="f-body-m">{{exercise.repeticiones}}</span>
+                  </li>
                 }
               </ul>
             </mat-card-content>

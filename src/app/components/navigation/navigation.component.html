@@ -17,6 +17,16 @@
       
       <a 
         mat-button 
+        routerLink="/ejercicios" 
+        routerLinkActive="active"
+        (click)="navigateTo('ejercicios')"
+        class="nav-link">
+        <mat-icon>fitness_center</mat-icon>
+        <span>Ejercicios</span>
+      </a>
+      
+      <a 
+        mat-button 
         routerLink="/gestion" 
         routerLinkActive="active"
         (click)="navigateTo('gestion')"
