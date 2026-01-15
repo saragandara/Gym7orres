@@ -1,3 +1,10 @@
+<div class="hidden flex-r flex-jc-sb flex-ai-c" style="margin-bottom: 1rem;">
+  <button mat-raised-button color="accent" (click)="exportDatabaseDump()">
+    <mat-icon>download</mat-icon>
+    Exportar base de datos
+  </button>
+</div>
+
 <div class="flex-r flex-g-32" cdkDropListGroup>
   <section class="panel__parent w-50 flex-c flex-g-32">
 
@@ -97,12 +104,13 @@
                 (cdkDropListDropped)="drop($event)">
                 @for (exercise of getFilteredExercisesByCategory(category._id); track exercise) {
                   <div cdkDrag class="droplist__item flex-r flex-jc-sb flex-ai-c" [class.already-used]="isExerciseInUse(exercise._id)">
-                    <span class="droplist__name flex-r flex-js-fs flex-ai-c flex-g-8">
-                      {{exercise.name}} 
+                    <div class="droplist__name flex-r flex-js-fs flex-ai-c flex-g-8">
+                      <span class="f-body-l">{{exercise.name}}</span>
+                      <span class="droplist__rr f-body-m">{{exercise.repeticiones}}</span>
                       @if (isExerciseInUse(exercise._id)) {
                         <mat-icon class="droplist__already-used" aria-hidden="false" aria-label="Ya usado" fontIcon="check"></mat-icon>
                       }
-                    </span>
+                    </div>
                     <div>
                       <button mat-icon-button color="primary" (click)="openExerciseForm(exercise)">
                         <mat-icon>edit</mat-icon>
@@ -145,6 +153,12 @@
           <mat-icon>save</mat-icon>
           Guardar tablas
         </button>
+
+        <button mat-raised-button color="warn" (click)="clearAllTables()">
+          <mat-icon>delete_sweep</mat-icon>
+          Limpiar
+        </button>
+
       </div>
     </div>
 
@@ -181,9 +195,12 @@
               <div cdkDrag class="droplist__item flex-r flex-jc-sb flex-ai-c">
                 <div [style.color]="getExerciseColor(table._id, exercise._id)" class="flex-r flex-jc-fs flex-g-8">
                   @if (exercise.order !== undefined) {
-                    <span>{{exercise.order + 1}}.</span>
+                    <span class="f-body-l">{{exercise.order + 1}}.</span>
                   }
-                  <span [style.color]="getExerciseColor(table._id, exercise._id)">{{exercise.name}}</span>
+                  <span class="f-body-l" [style.color]="getExerciseColor(table._id, exercise._id)">{{exercise.name}}</span>
+                  @if (exercise.repeticiones) {
+                    <span class="droplist__rr f-body-m">{{exercise.repeticiones}}</span>
+                  }
                 </div>
                 <button mat-icon-button (click)="removeExerciseFromTable(table._id, exercise)">
                   <mat-icon color="warn">delete</mat-icon>

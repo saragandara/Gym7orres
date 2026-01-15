@@ -1,0 +1,30 @@
+.dialog-container {
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    mat-icon {
+      color: var(--primary-color);
+    }
+  }
+  
+  mat-dialog-content {
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  mat-dialog-actions {
+    padding: 1rem 0;
+    
+    button {
+      margin-left: 0.5rem;
+    }
+  }
+}

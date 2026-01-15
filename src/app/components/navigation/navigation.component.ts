@@ -27,7 +27,7 @@ export class NavigationComponent {
   // Acceso a la signal de navegación
   navState = this.navigationService.navigationState;
 
-  navigateTo(page: 'historico' | 'gestion'): void {
+  navigateTo(page: 'historico' | 'gestion' | 'ejercicios'): void {
     this.navigationService.setCurrentPage(page);
     this.router.navigate([`/${page}`]);
   }

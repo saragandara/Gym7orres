@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type PageRoute = 'historico' | 'gestion';
+export type PageRoute = 'historico' | 'gestion' | 'ejercicios';
 
 export interface NavigationState {
   currentPage: PageRoute;
@@ -23,7 +23,8 @@ export class NavigationService {
   // Mapa de rutas a títulos
   private readonly pageTitles: Record<PageRoute, string> = {
     historico: 'Histórico de Tablas',
-    gestion: 'Gestión de Tablas'
+    gestion: 'Gestión de Tablas',
+    ejercicios: 'Listado de Ejercicios'
   };
 
   setCurrentPage(page: PageRoute): void {

@@ -3,6 +3,7 @@ export interface Exercise {
   name: string;
   categoryId: number;
   color?: string;
+  repeticiones?: string;
 }
 
 export interface ExercisesData {

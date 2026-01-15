@@ -1,0 +1,28 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>print</mat-icon>
+    Configuración de impresión
+  </h2>
+  
+  <mat-dialog-content>
+    <p>¿Cuántas tablas por hoja?</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Número de tablas</mat-label>
+      <input 
+        matInput 
+        type="number" 
+        [(ngModel)]="tablesPerPage" 
+        min="1" 
+        max="10"
+        placeholder="Introduce un número">
+    </mat-form-field>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">
+      <mat-icon>print</mat-icon>
+      Imprimir
+    </button>
+  </mat-dialog-actions>
+</div>

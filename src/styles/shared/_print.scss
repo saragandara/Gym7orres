@@ -77,7 +77,7 @@
   text-align: center;
   font-size: rem(20);
   font-weight: bold;
-  margin-bottom: rem(20);
+  margin-bottom: rem(30);
   text-transform: uppercase;
   color: #555;
 }
@@ -253,11 +253,11 @@
   }
 
   .table-section {
-    margin-bottom: rem(30);
+    margin-bottom: rem(40);
   }
 
   .table-title {
-    margin-bottom: rem(15);
+    margin-bottom: rem(30);
     font-size: rem(16);
   }
 
@@ -303,6 +303,101 @@
   // Evitar saltos de página en medio de filas
   .exercises-table table tbody tr {
     page-break-inside: avoid;
+  }
+
+  // Control de tablas por página
+  .tables-per-page--1 {
+    .table-section {
+      page-break-after: always;
+      
+      &:last-child {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--2 {
+    .table-section:nth-of-type(2n) {
+      page-break-after: always;
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--3 {
+    .table-section:nth-of-type(3n) {
+      page-break-after: always;
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--4 {
+    .table-section:nth-of-type(4n) {
+      page-break-after: always;
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--5 {
+    .table-section:nth-of-type(5n) {
+      page-break-after: always;
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--6 {
+    .table-section:nth-of-type(6n) {
+      page-break-after: always;
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+  }
+
+  .tables-per-page--7 {
+    .table-section {
+      margin-bottom: rem(20);
+
+      &:nth-of-type(7n) {
+        page-break-after: always;
+      }
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+    .table-title {
+      margin-bottom: rem(20);
+    }
+  }
+
+  .tables-per-page--8 {
+    .table-section {
+      margin-bottom: rem(10);
+      
+      &:nth-of-type(8n) {
+        page-break-after: always;
+      }
+      
+      &:last-of-type {
+        page-break-after: auto;
+      }
+    }
+    .table-title {
+      margin-bottom: rem(10);
+    }
   }
 }
 

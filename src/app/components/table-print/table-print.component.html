@@ -1,4 +1,4 @@
-<div class="print-container">
+<div class="print-container {{ tablesPerPageClass }}">
   <div class="print-header no-print flex-r flex-jc-sb flex-ai-c">
     <button mat-raised-button color="secondary" (click)="close()">
       <mat-icon>arrow_left</mat-icon>
@@ -37,9 +37,12 @@
               <tbody>
                 @for (exercise of table.exercises; track exercise.exerciseId) {
                   <tr>
-                    <td class="exercise-name" [style.color]="exercise.color">
-                      <span class="exercise-order">{{ exercise.order + 1 }}.</span>
-                      <span>{{ exercise.name }}</span>
+                    <td class="exercise-name">
+                      <span class="exercise-order" [style.color]="exercise.color">{{ exercise.order + 1 }}.</span>
+                      <span [style.color]="exercise.color">{{ exercise.name }}</span>
+                      @if (exercise.repeticiones) {
+                        <span class="f-body-s" [style.color]="'#666666'">&nbsp;&nbsp;({{exercise.repeticiones}})</span>
+                      }
                     </td>
                     @for (set of getSetsArray(); track set) {
                       <td class="value-cell kg-cell"></td>
