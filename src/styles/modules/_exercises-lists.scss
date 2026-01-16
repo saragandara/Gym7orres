@@ -32,11 +32,11 @@
   
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
-  
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
     @include media-breakpoint-up(md) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -58,8 +58,22 @@
 
     &:hover {
       opacity: 0.7;
-      text-decoration-style: solid;
     }
   }
 
+  @media print {
+    .category-card {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  
+    .mat-mdc-card {
+      box-shadow: none;
+      border: rem(1) solid $gym-neutral-400-color;
+    }
+  
+    .mat-mdc-card-header {
+      border-block-end: rem(1) solid $gym-neutral-400-color;
+    }
+  }
 }

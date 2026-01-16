@@ -1,10 +1,17 @@
 <div class="exercises-list-container">
-  <div class="page-header">
+  <div class="page-header no-print">
     <h1>
       <mat-icon>fitness_center</mat-icon>
       Listado de Ejercicios
     </h1>
     <p class="subtitle">Todos los ejercicios organizados por categorías</p>
+  </div>
+
+  <div class="flex-r flex-jc-fe no-print" style="margin-bottom: 1rem;">
+    <button mat-raised-button color="primary" (click)="printExercises()">
+      <mat-icon>print</mat-icon>
+      Imprimir listado
+    </button>
   </div>
 
   @if (exercisesByCategory().length > 0) {
