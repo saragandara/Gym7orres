@@ -5,6 +5,7 @@ import { Category, Exercise } from '../../services/data.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ExerciseFormComponent } from '../../components/exercise-form/exercise-form.component';
 
@@ -16,7 +17,7 @@ interface ExercisesByCategory {
 @Component({
   selector: 'app-exercises-list',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, MatChipsModule, MatButtonModule],
   templateUrl: './exercises-list.component.html',
   styleUrl: './exercises-list.component.scss'
 })
@@ -54,5 +55,12 @@ export class ExercisesListComponent implements OnInit {
         this.gymService.getExercises();
       }
     });
+  }
+
+  printExercises(): void {
+    const originalTitle = document.title;
+    document.title = 'Listado de ejercicios';
+    window.print();
+    document.title = originalTitle;
   }
 }
